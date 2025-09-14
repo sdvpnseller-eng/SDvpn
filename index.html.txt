@@ -1,0 +1,31 @@
+SD ভিপি সেলার — অনলাইন শপ :root{--accent:#0077cc;--muted:#666} body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Noto Sans Bengali',sans-serif;margin:0;color:#222} header{background:#f0f7ff;padding:18px 20px;border-bottom:1px solid #e6eef8} .container{max-width:1100px;margin:0 auto;padding:20px} .btn{background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;border:0;cursor:pointer} .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:none;align-items:center;justify-content:center;padding:20px;z-index:999} .modal{background:white;border-radius:12px;max-width:720px;width:100%;padding:18px;max-height:90vh;overflow:auto} .flex{display:flex;gap:12px;align-items:center} .spacer{flex:1} .small{font-size:13px} .muted{color:var(--muted)} .pay-option{border:1px solid #ddd;padding:10px;border-radius:8px;margin-bottom:8px;cursor:pointer} .pay-option:hover{background:#f9f9f9} 
+
+SD ভিপি সেলার
+
+জনপ্রিয় পণ্য
+
+কার্ট (0)
+
+কার্ট
+
+বন্ধ
+
+মোট: ৳0
+
+চেকআউট
+
+পেমেন্ট অপশন
+
+বন্ধ
+
+আপনার পেমেন্ট মেথড নির্বাচন করুন:
+
+বিকাশ
+
+রকেট
+
+নগদ
+
+ব্যাংক একাউন্ট
+
+const sampleProducts=[ {id:1,title:'ব্লুটুথ হেডফোন',price:1200}, {id:2,title:'স্মার্টওয়াচ',price:2500}, {id:3,title:'পোর্টেবল স্পিকার',price:900} ]; function getCart(){return JSON.parse(localStorage.getItem('sd_cart')||'[]')} function saveCart(c){localStorage.setItem('sd_cart',JSON.stringify(c)); renderCartCount()} function addToCart(id){ const prod=sampleProducts.find(p=>p.id===id);if(!prod)return; const cart=getCart(); const found=cart.find(i=>i.id===id); if(found)found.qty++;else cart.push({id:prod.id,title:prod.title,price:prod.price,qty:1}); saveCart(cart); alert(prod.title+' কার্টে যোগ করা হয়েছে'); } function renderProducts(){ const el=document.getElementById('productList'); el.innerHTML=''; sampleProducts.forEach(p=>{ const d=document.createElement('div'); d.innerHTML=`<h3>${p.title}</h3><p>৳ ${p.price}</p><button class='btn' onclick='addToCart(${p.id})'>কিনুন</button>`; el.appendChild(d); }) } function renderCartCount(){ const cnt=getCart().reduce((s,i)=>s+i.qty,0); document.getElementById('cartCount').innerText=cnt; } function openCart(){document.getElementById('modalBackdrop').style.display='flex';renderCartItems()} function closeCart(){document.getElementById('modalBackdrop').style.display='none'} function renderCartItems(){ const el=document.getElementById('cartItems'); const cart=getCart(); el.innerHTML=''; let total=0; cart.forEach(item=>{total+=item.price*item.qty;el.innerHTML+=`<div><strong>${item.title}</strong> — ৳${item.price} × ${item.qty}</div>`}); document.getElementById('cartTotal').innerText=total; } function openPayment(){closeCart();document.getElementById('paymentModal').style.display='flex'} function closePayment(){document.getElementById('paymentModal').style.display='none'} function makePayment(method){ const total=document.getElementById('cartTotal').innerText; alert(method+' এর মাধ্যমে ৳'+total+' পেমেন্ট প্রসেস করা হবে (ডেমো)'); localStorage.removeItem('sd_cart');renderCartCount();closePayment(); } renderProducts();renderCartCount(); 
